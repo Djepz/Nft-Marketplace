@@ -9,9 +9,11 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
 
+  const args = [];
+
   const nftMarketplace = await deploy("NftMarketplace", {
     from: deployer,
-    args: [],
+    args: args,
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
