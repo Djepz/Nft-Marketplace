@@ -1,4 +1,4 @@
-import { Modal, Input, useNotification } from "web3uikit";
+import { Modal, Input, useNotification, Button } from "web3uikit";
 import { useState } from "react";
 import { useWeb3Contract } from "react-moralis";
 import nftMarketplaceAbi from "../constants/NftMarketplace.json";
@@ -26,6 +26,16 @@ export default function UpdateListingModal({
     setPriceToUpdateListingWith("0");
   };
 
+  const handleCancelListingSuccess = () => {
+    dispatch({
+      type: "success",
+      message: "listing canceled",
+      title: "Listing canceled - please refresh (and move blocks)",
+      position: "topR",
+    });
+    onClose && onClose();
+  };
+
   const { runContractFunction: updateListing } = useWeb3Contract({
     abi: nftMarketplaceAbi,
     contractAddress: marketplaceAddress,
@@ -37,8 +47,23 @@ export default function UpdateListingModal({
     },
   });
 
+  const { runContractFunction: cancelListing } = useWeb3Contract({
+    abi: nftMarketplaceAbi,
+    contractAddress: marketplaceAddress,
+    functionName: "cancelListing",
+    params: {
+      nftAddress: nftAddress,
+      tokenId: tokenId,
+    },
+  });
+
+  async function cancel() {
+    await cancelListing();
+  }
+
   return (
     <Modal
+      Button={isVisible}
       isVisible={isVisible}
       onCancel={onClose}
       onCloseButtonPressed={onClose}
@@ -51,6 +76,17 @@ export default function UpdateListingModal({
         });
       }}
     >
+      <Button
+        text="Cancel Item"
+        onClick={() => {
+          cancelListing({
+            onError: (error) => {
+              console.log(error);
+            },
+            onSuccess: () => handleCancelListingSuccess(),
+          });
+        }}
+      ></Button>
       <Input
         label="Update listing price in L1 Currency (ETH)"
         name="New listing price"
