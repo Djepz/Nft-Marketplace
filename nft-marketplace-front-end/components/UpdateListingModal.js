@@ -57,10 +57,6 @@ export default function UpdateListingModal({
     },
   });
 
-  async function cancel() {
-    await cancelListing();
-  }
-
   return (
     <Modal
       Button={isVisible}
@@ -86,6 +82,7 @@ export default function UpdateListingModal({
             onSuccess: () => handleCancelListingSuccess(),
           });
         }}
+        type="button"
       ></Button>
       <Input
         label="Update listing price in L1 Currency (ETH)"

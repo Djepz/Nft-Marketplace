@@ -58,9 +58,9 @@ export default function NFTBox({
   });
 
   async function updateUI() {
-    console.log("here");
     const tokenURI = await getTokenURI();
     console.log(`The TokenURI is ${tokenURI}`);
+    console.log(tokenId);
     // We are going to cheat a little here...
     if (tokenURI) {
       // IPFS Gateway: A server that will return IPFS files from a "normal" URL.

@@ -4,7 +4,6 @@ import {
   ItemCanceled as ItemCanceledEvent,
   ItemListed as ItemListedEvent
 } from "../generated/NftMarketplace/NftMarketplace"
-//import { ExampleEntity } from "../generated/schema"
 import { ItemListed, ActiveItem, ItemBought, ItemCanceled } from "../generated/schema";
 
 export function handleItemBought(event: ItemBoughtEvent): void {
@@ -36,7 +35,7 @@ export function handleItemCanceled(event: ItemCanceledEvent): void {
   itemCanceled.nftAddress = event.params.nftAddress
   itemCanceled.tokenId = event.params.tokenid
 
-  activeItem!.buyer = Address.fromString("0x0000000000000000000000000000000000000dEaD")
+  activeItem!.buyer = Address.fromString("0x000000000000000000000000000000000000dEaD")
 
   itemCanceled.save()
   activeItem!.save()
